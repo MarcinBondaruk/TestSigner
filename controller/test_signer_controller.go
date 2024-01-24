@@ -14,12 +14,12 @@ type TestSignerController struct {
 }
 
 func NewTestSignerController(signerService service.SignerService) *TestSignerController {
-	return &TestSignerController{}
+	return &TestSignerController{signerService: signerService}
 }
 
-func (tsc TestSignerController) Sign(ctx *gin.Context) {
+func (tsc *TestSignerController) Sign(ctx *gin.Context) {
 	var signRequest []request.SignAnswersRequest
-	userId := "123456"
+	userId := "018d3c5a-6d2b-79ed-94ab-90e9d9ba526b"
 	err := ctx.ShouldBindJSON(&signRequest)
 
 	if err != nil {
@@ -36,7 +36,7 @@ func (tsc TestSignerController) Sign(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response.SignResponse{Signature: signature})
 }
 
-func (tsc TestSignerController) RetrieveByUserIdAndSignature(ctx *gin.Context) {
+func (tsc *TestSignerController) RetrieveByUserIdAndSignature(ctx *gin.Context) {
 	succ, answers, timestamp := tsc.signerService.Retrieve("someid", "somesignature")
 
 	if succ {

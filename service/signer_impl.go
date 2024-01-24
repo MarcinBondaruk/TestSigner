@@ -30,7 +30,7 @@ func base64Answers(data []request.SignAnswersRequest) string {
 	var answers []string
 
 	for _, v := range data {
-		answers = append(answers, base64.StdEncoding.EncodeToString([]byte(v.Question)))
+		answers = append(answers, base64.StdEncoding.EncodeToString([]byte(v.Answer)))
 	}
 
 	return strings.Join(answers, ",")
