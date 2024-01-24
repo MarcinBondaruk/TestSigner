@@ -8,5 +8,5 @@ import (
 
 type SignerService interface {
 	Sign(userId string, reqData []request.SignAnswersRequest) (string, error)
-	Retrieve(userid, signature string) (bool, string, time.Time)
+	Retrieve(userid, signature string) (string, time.Time, error)
 }

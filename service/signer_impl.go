@@ -84,17 +84,22 @@ func (s SignerServiceImpl) Sign(userId string, reqData []request.SignAnswersRequ
 		Timestamp: time.Now(),
 	}
 
-	s.signatureRepository.Add(newSignedTest)
+	err := s.signatureRepository.Add(newSignedTest)
+
+	if err != nil {
+		return "", err
+	}
+
 	return signature, nil
 }
 
 // basiclly a proxy for signed tests repository
-func (s SignerServiceImpl) Retrieve(userId, signature string) (bool, string, time.Time) {
+func (s SignerServiceImpl) Retrieve(userId, signature string) (string, time.Time, error) {
 	signedTest, err := s.signatureRepository.Retrieve(userId, signature)
 
 	if err != nil {
-		panic(err) // for now
+		return "", time.Time{}, err
 	}
 
-	return true, deBase64Answers(signedTest.Answers), signedTest.Timestamp
+	return deBase64Answers(signedTest.Answers), signedTest.Timestamp, nil
 }

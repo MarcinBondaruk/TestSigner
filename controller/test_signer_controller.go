@@ -38,9 +38,9 @@ func (tsc *TestSignerController) Sign(ctx *gin.Context) {
 
 	signature, err := tsc.signerService.Sign(usrIdVal, signRequest)
 
-	// handle signer error
 	if err != nil {
-		panic(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, response.SignResponse{Signature: signature})
@@ -60,16 +60,12 @@ func (tsc *TestSignerController) RetrieveByUserIdAndSignature(ctx *gin.Context) 
 		return
 	}
 
-	succ, answers, timestamp := tsc.signerService.Retrieve(userId, signature)
+	answers, timestamp, err := tsc.signerService.Retrieve(userId, signature)
 
-	if succ {
-		ctx.JSON(200, response.RetrieveByUserIdAndSignatureResponse{
-			Status:    "OK",
-			Answers:   answers,
-			Timestamp: timestamp,
-		})
-	} else {
-		ctx.JSON(500, "some error")
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "OK", "answers": answers, "timestamp": timestamp})
 }
