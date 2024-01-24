@@ -25,7 +25,10 @@ func NewTestSignerController(signerService service.SignerService) *TestSignerCon
 
 func (tsc *TestSignerController) Sign(ctx *gin.Context) {
 	var signRequest []request.SignAnswersRequest
-	userId := "018d3c5a-6d2b-79ed-94ab-90e9d9ba526b"
+	userId, _ := ctx.Get("userId")
+	// i will just assume its always string while setting
+	usrIdVal, _ := userId.(string)
+
 	err := ctx.ShouldBindJSON(&signRequest)
 
 	if err != nil {
@@ -33,7 +36,7 @@ func (tsc *TestSignerController) Sign(ctx *gin.Context) {
 		return
 	}
 
-	signature, err := tsc.signerService.Sign(userId, signRequest)
+	signature, err := tsc.signerService.Sign(usrIdVal, signRequest)
 
 	// handle signer error
 	if err != nil {

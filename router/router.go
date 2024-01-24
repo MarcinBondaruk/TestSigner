@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/MarcinBondaruk/TestSigner/controller"
+	"github.com/MarcinBondaruk/TestSigner/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +24,7 @@ func NewRouter(testSignerController *controller.TestSignerController) *gin.Engin
 	apiv1 := testSignerService.Group("/api/v1")
 	tests := apiv1.Group("/tests")
 	// it is restful if opration is the last part of an url
-	tests.POST("/sign", testSignerController.Sign)
+	tests.POST("/sign", middleware.AuthMiddleware(), testSignerController.Sign)
 	// basiclly retrieve all but should be 1, could be refactored easily
 	tests.GET("", testSignerController.RetrieveByUserIdAndSignature)
 
