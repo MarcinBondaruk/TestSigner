@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/MarcinBondaruk/TestSigner/api/request"
-	"github.com/MarcinBondaruk/TestSigner/api/response"
 	"github.com/MarcinBondaruk/TestSigner/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -43,7 +42,7 @@ func (tsc *TestSignerController) Sign(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, response.SignResponse{Signature: signature})
+	ctx.JSON(http.StatusOK, gin.H{"signature": signature})
 }
 
 func (tsc *TestSignerController) RetrieveByUserIdAndSignature(ctx *gin.Context) {

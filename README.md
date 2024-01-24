@@ -22,4 +22,7 @@ JWT should be passed in Authorization header as bearer token
 ### Some known issues
 Error handling might not be perfect, for example if signature already exists (meaning this test by this user was aleady signed) i dont really remap infrastructural error to application layer one.
 
+There might be some cleanup needed
+
+
 
