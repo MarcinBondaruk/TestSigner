@@ -7,6 +7,6 @@ type SignedTest struct {
 	UserId    string `gorm:"type:uuid;index:user_sign"`
 	Questions string `gorm:"type:text"`
 	Answers   string `gorm:"type:text"`
-	Signature string `gorm:"type:char(32);index:user_sign"`
+	Signature string `gorm:"type:char(32);index:user_sign;unique;not null"`
 	Timestamp time.Time
 }

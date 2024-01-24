@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/MarcinBondaruk/TestSigner/api/request"
 	"github.com/MarcinBondaruk/TestSigner/api/response"
 	"github.com/MarcinBondaruk/TestSigner/service"
 	"github.com/gin-gonic/gin"
@@ -17,8 +18,17 @@ func NewTestSignerController(signerService service.SignerService) *TestSignerCon
 }
 
 func (tsc TestSignerController) Sign(ctx *gin.Context) {
-	signature, err := tsc.signerService.Sign("SOME DATA")
+	var signRequest []request.SignAnswersRequest
+	userId := "123456"
+	err := ctx.ShouldBindJSON(&signRequest)
 
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+	}
+
+	signature, err := tsc.signerService.Sign(userId, signRequest)
+
+	// handle signer error
 	if err != nil {
 		panic(err)
 	}

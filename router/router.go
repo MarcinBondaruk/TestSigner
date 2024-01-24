@@ -21,8 +21,11 @@ func NewRouter(testSignerController *controller.TestSignerController) *gin.Engin
 
 	// setup service api
 	apiv1 := testSignerService.Group("/api/v1")
-	apiv1.POST("/sign", testSignerController.Sign)
-	apiv1.GET("/retrieve", testSignerController.RetrieveByUserIdAndSignature)
+	tests := apiv1.Group("/tests")
+	// it is restful if opration is the last part of an url
+	tests.POST("/sign", testSignerController.Sign)
+	// basiclly retrieve all but should be 1, could be refactored easily
+	tests.GET("", testSignerController.RetrieveByUserIdAndSignature)
 
 	return testSignerService
 }
