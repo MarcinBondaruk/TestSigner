@@ -47,6 +47,19 @@ func base64Questions(data []request.SignAnswersRequest) string {
 	return strings.Join(questions, ",")
 }
 
+func deBase64Answers(based string) string {
+	var answers []string
+	var bytes []byte
+	tmp := strings.Split(based, ",")
+
+	for i := 0; i < len(tmp); i++ {
+		bytes, _ = base64.StdEncoding.DecodeString(tmp[i])
+		answers = append(answers, string(bytes))
+	}
+
+	return strings.Join(answers, ",")
+}
+
 type SignerServiceImpl struct {
 	signatureRepository repository.SignatureRepository
 }
@@ -83,5 +96,5 @@ func (s SignerServiceImpl) Retrieve(userId, signature string) (bool, string, tim
 		panic(err) // for now
 	}
 
-	return true, signedTest.Answers, signedTest.Timestamp
+	return true, deBase64Answers(signedTest.Answers), signedTest.Timestamp
 }
