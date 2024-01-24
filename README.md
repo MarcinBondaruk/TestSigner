@@ -20,6 +20,7 @@ JWT should be passed in Authorization header as bearer token
 `localhost:8080/api/v1/tests?user_id=someUUID&signature=someSignature` - retrieve by userId and signature. Will return error when userId or signature is missing. This endpoint **DOES NOT EXPECT** JWT token. thats what i figured from the task description
 
 ### Some known issues
+**Forgot to make db calls concurrent**
 Error handling might not be perfect, for example if signature already exists (meaning this test by this user was aleady signed) i dont really remap infrastructural error to application layer one.
 
 There might be some cleanup needed
