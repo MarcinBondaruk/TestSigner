@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/MarcinBondaruk/TestSigner/api/response"
 	"github.com/MarcinBondaruk/TestSigner/service"
 	"github.com/gin-gonic/gin"
 )
@@ -22,14 +23,14 @@ func (tsc TestSignerController) Sign(ctx *gin.Context) {
 		panic(err)
 	}
 
-	ctx.JSON(http.StatusOK, SignResponse{Signature: signature})
+	ctx.JSON(http.StatusOK, response.SignResponse{Signature: signature})
 }
 
 func (tsc TestSignerController) RetrieveByUserIdAndSignature(ctx *gin.Context) {
 	succ, answers, timestamp := tsc.signerService.Retrieve("someid", "somesignature")
 
 	if succ {
-		ctx.JSON(200, RetrieveByUserIdAndSignatureResponse{
+		ctx.JSON(200, response.RetrieveByUserIdAndSignatureResponse{
 			Status:    "OK",
 			Answers:   answers,
 			Timestamp: timestamp,
