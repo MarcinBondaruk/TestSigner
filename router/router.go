@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(testSignerController controller.TestSignerController) *gin.Engine {
+func NewRouter(testSignerController *controller.TestSignerController) *gin.Engine {
 	// setup service at root level
 	testSignerService := gin.Default()
 	testSignerService.GET("", func(ctx *gin.Context) {
