@@ -1,6 +1,8 @@
 ### Overview
 I implemented loose layerd architecture. Directory structure is flat - i dont really like this but required less thinking more delivering. I like explicit Layers Application/Domain/Infra
 
+Please remember to start up DB `docker-compose up -d test_signer_db`
+
 ### Assumptions
 Questions and answeres are expected to be strings. This can cover all cases like:
 * question is an id, or text, url to image or something else
